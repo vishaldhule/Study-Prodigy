@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    
+    // --- User Validation ---
+    function isValidUser(data) {
+      return data.uid == request.auth.uid &&
+             data.email is string && data.email.size() <= 100 &&
+             (data.displayName == null || (data.displayName is string && data.displayName.size() <= 100)) &&
+             (data.examType == null || (data.examType is string && data.examType.size() <= 50));
+    }
+
+    // --- Session Validation ---
+    function isValidSession(data, userId) {
+      return data.userId == userId &&
+             data.id is string && data.id.size() <= 128 &&
+             data.title is string && data.title.size() <= 200 &&
+             data.timestamp is int;
+    }
+
+    // --- Reminder Validation ---
+    function isValidReminder(data, userId) {
+      return data.userId == userId &&
+             data.topic is string && data.topic.size() <= 200 &&
+             data.time is string && data.time.size() <= 50;
+    }
+
+    // --- Resource Routes ---
+
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(incoming());
+      allow update: if isOwner(userId) && isValidUser(incoming()) && 
+                    incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL', 'examType', 'dailyStreak', 'points', 'lastActive']);
+      
+      match /sessions/{sessionId} {
+        allow list: if isOwner(userId);
+        allow get: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidSession(incoming(), userId);
+        allow update: if isOwner(userId) && isValidSession(incoming(), userId) &&
+                      incoming().diff(existing()).affectedKeys().hasOnly(['title', 'refinedNotes', 'summary', 'visualMap', 'quiz']);
+        allow delete: if isOwner(userId);
+      }
+
+      match /reminders/{reminderId} {
+        allow list: if isOwner(userId);
+        allow get: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidReminder(incoming(), userId);
+        allow update: if isOwner(userId) && isValidReminder(incoming(), userId) &&
+                      incoming().diff(existing()).affectedKeys().hasOnly(['topic', 'time', 'isCompleted']);
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

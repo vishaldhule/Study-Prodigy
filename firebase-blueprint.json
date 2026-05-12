@@ -1,0 +1,70 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account and gamification data",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "examType": { "type": "string" },
+        "dailyStreak": { "type": "integer" },
+        "points": { "type": "integer" },
+        "lastActive": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "StudySession": {
+      "title": "Study Session",
+      "description": "Captured and processed study material",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "timestamp": { "type": "integer" },
+        "examType": { "type": "string" },
+        "refinedNotes": { "type": "string" },
+        "summary": {
+          "type": "object",
+          "properties": {
+            "feynman": { "type": "string" },
+            "deepDive": { "type": "string" }
+          }
+        },
+        "visualMap": { "type": "string" },
+        "quiz": { "type": "array", "items": { "type": "object" } }
+      },
+      "required": ["id", "userId", "title", "timestamp"]
+    },
+    "Reminder": {
+      "title": "Study Reminder",
+      "description": "Scheduled study alerts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "topic": { "type": "string" },
+        "time": { "type": "string", "format": "date-time" },
+        "isCompleted": { "type": "boolean" }
+      },
+      "required": ["id", "userId", "topic", "time"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data"
+    },
+    "/users/{userId}/sessions/{sessionId}": {
+      "schema": "StudySession",
+      "description": "User's study sessions"
+    },
+    "/users/{userId}/reminders/{reminderId}": {
+      "schema": "Reminder",
+      "description": "User's study alerts"
+    }
+  }
+}

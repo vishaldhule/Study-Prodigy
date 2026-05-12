@@ -1,0 +1,15 @@
+{
+  "name": "Prodigy.",
+  "description": "An elite AI Academic Architect for competitive exams and college curricula. Features OCR, note refinement, Feynman summaries, and smart adaptive quizzing.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "OCR",
+    "PDF Analysis",
+    "Lecture Summarization",
+    "Smart Quizzes",
+    "LaTeX Support"
+  ]
+}

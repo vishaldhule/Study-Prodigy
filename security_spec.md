@@ -1,4 +1,4 @@
-# Security Specification for Prodigy.
+# Security Specification for Prodigy
 
 ## 1. Data Invariants
 - A `User` profile must always have an `email` and `uid`.

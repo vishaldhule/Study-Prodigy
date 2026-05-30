@@ -1,20 +1,32 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+  <h1>🚀 Study Prodigy</h1>
+  <p><b>An AI-Powered Productivity Toolkit for Students</b></p>
 </div>
 
-# Run and deploy your AI Studio app
+## 🌟 About The Project
 
-This contains everything you need to run your app locally.
+**Study Prodigy** is a smart utility application designed to help students manage their time, track tasks, and boost their daily productivity. 
 
-View your app in AI Studio: https://ai.studio/apps/36a4b20f-8496-4f74-a131-c5b694e6f7e0
+*Note: This project was built using **Google AI Studio**, showcasing the power of modern AI-assisted development to create functional and efficient web applications.*
 
-## Run Locally
+## ✨ Features
 
-**Prerequisites:**  Node.js
+* ⏱️ **Study Timer:** Keep track of your focus sessions and breaks.
+* 📝 **Task Management:** Organize your daily assignments and goals effectively.
+* 🤖 **AI-Assisted:** Logic and structure generated utilizing advanced AI tools.
 
+## 🛠️ Tech Stack
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+* **AI Generation:** Google AI Studio
+* **Language:** TypeScript / Node.js
+* **API:** Gemini API
+
+## 🚀 How to Run Locally
+
+If you want to run this project on your own machine, follow these steps.
+
+**Prerequisites:** Make sure you have [Node.js](https://nodejs.org/) installed.
+
+**1. Install dependencies:**
+```bash
+npm install
